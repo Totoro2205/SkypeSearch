@@ -14,10 +14,10 @@ class Profile:
         self.is_default_avatar = is_default_avatar
         self.display_name = display_name
         self.city = city
-        self.state = state,
-        self.country = country,
-        self.date_of_birth = date_of_birth,
-        self.gender = gender,
+        self.state = state
+        self.country = country
+        self.date_of_birth = date_of_birth
+        self.gender = gender
         self.creation_time = creation_time
 
 
@@ -132,25 +132,25 @@ async def search(text, token):
             print('---------------------------------------\n')
 
             print(f'Skype ID: {profile.skype_id}')
-            if profile.display_name not in [None, (None,)]:
+            if profile.display_name not in [None, None]:
                 print(f'Display Name: {profile.display_name}')
             print(f'\nProfile Avatar: {profile.avatar_url}')
             if profile.is_default_avatar:
                 print(f'[-] Default Avatar')
 
-            if [profile.city, profile.state, profile.country] != [None, (None,), (None,)]:
+            if [profile.city, profile.state, profile.country] != [None, None, None]:
                 print('\n[+] Location found!')
-            if profile.city not in [None, (None,)]:
+            if profile.city not in [None, None]:
                 print(f'- City: {profile.city}')
-            if profile.state not in [None, (None,)]:
+            if profile.state not in [None, None]:
                 print(f'- State: {profile.state}')
-            if profile.country not in [None, (None,)]:
+            if profile.country not in [None, None]:
                 print(f'- Country: {profile.country}')
 
-            if [profile.date_of_birth, profile.gender, profile.email] != [(None,), 'Unspecified', None]:
+            if [profile.date_of_birth, profile.gender, profile.email] != [None, 'Unspecified', None]:
                 print('\n[+] Other info found!')
 
-            if profile.date_of_birth != (None,):
+            if profile.date_of_birth != None:
                 print(f'- Date of Birth: {profile.date_of_birth}')
             if profile.gender is not None and profile.gender != 'Unspecified':
                 print(f'- Gender: {profile.gender}')
