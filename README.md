@@ -8,9 +8,14 @@ SkypeSearch is an async OSINT tool made to allow researchers to easily find info
 ## What can I find?
 - Skype ID
 - Display Name
-- Profile picture
+- Profile Picture
 - Location
 - Date of Birth
 - Gender
 - Email address
 - Creation Date
+
+## Screenshots
+
+## Credits
+This tool is inspired by [White Hat Inspector's research](https://whitehatinspector.blogspot.com/2021/03/skype-hidden-osint-goldmine.html) on Skype IDs
