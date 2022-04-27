@@ -1,6 +1,6 @@
 import aiohttp
 
-from skype import *
+from api import *
 
 
 class Profile:
