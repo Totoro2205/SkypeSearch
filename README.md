@@ -17,7 +17,7 @@ SkypeSearch is an async OSINT tool made to allow researchers to easily find info
 - Microsoft Teams
 
 ## Screenshots
-<p align="center">
+<p align="left">
   <img src="https://i.imgur.com/Vv7FIha.png">
 </p>
 
