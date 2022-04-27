@@ -5,7 +5,8 @@ from skype import *
 
 class Profile:
     def __init__(self, skype_id, email=None, email_username=None, handle=None, avatar_url=None, is_default_avatar=None,
-                 city=None, state=None, country=None, display_name=None, date_of_birth=None, gender=None, creation_time=None):
+                 city=None, state=None, country=None, display_name=None, date_of_birth=None, gender=None,
+                 creation_time=None, account_type=None):
         self.skype_id = skype_id
         self.email = email
         self.email_username = email_username
@@ -19,6 +20,7 @@ class Profile:
         self.date_of_birth = date_of_birth
         self.gender = gender
         self.creation_time = creation_time
+        self.account_type = account_type
 
 
 async def search(text, token):
@@ -111,6 +113,9 @@ async def search(text, token):
             if 'state' in user['nodeProfileData']:
                 profile.state = user['nodeProfileData']['state']
 
+            if 'contactType' in user['nodeProfileData']:
+                profile.account_type = user['nodeProfileData']['contactType']
+
             if 'country' in user['nodeProfileData']:
                 profile.country = user['nodeProfileData']['country']
 
@@ -154,6 +159,9 @@ async def search(text, token):
                 print(f'- Gender: {profile.gender}')
             if profile.email is not None:
                 print(f'- Email: {profile.email}')
+
+            if profile.account_type == 'Skype4Business':
+                print('\n=> The account uses Microsoft Teams')
 
             if profile.creation_time is not None:
                 print(f'\n=> The account was created {profile.creation_time}')
