@@ -22,9 +22,6 @@ class Profile:
 
 
 async def search(text, token):
-    if text is None:
-        print('Please enter valid text to search in Skype.')
-        return
 
     async with aiohttp.ClientSession() as session:
 
@@ -81,12 +78,12 @@ async def search(text, token):
 
                     check = await find_users(f'{profile.email_username}@{email_domain}', token, session)
 
-                    if users[0] != 200:
-                        if users[0] == 429:
-                            print(f'{users[0]} | Ratelimited by API, try again in a minute.')
+                    if check[0] != 200:
+                        if check[0] == 429:
+                            print(f'{check[0]} | Ratelimited by API, try again in a minute.')
                             return
                         else:
-                            print(f'{users[0]} | An unknown error occured.')
+                            print(f'{check[0]} | An unknown error occured.')
                             return
 
                     for user_profile in check[1]:
