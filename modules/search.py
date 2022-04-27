@@ -67,32 +67,33 @@ async def search(text, token):
 
             # Checking if email can be found for account
             if profile.skype_id.startswith('live:') and profile.skype_id.startswith('live:.cid.') is False:
-                email_username = profile.skype_id[5:]
-                if email_username.split('_')[-1].isdigit():
-                    profile.email_username = '_'.join(email_username.split('_')[:-1])
+                profile.email_username = profile.skype_id[5:]
+                if profile.email_username.split('_')[-1].isdigit():
+                    profile.email_username = '_'.join(profile.email_username.split('_')[:-1])
 
-                    # Common email providers
-                    email_domains = ['gmail.com', 'icloud.com', 'yahoo.com', 'hotmail.com', 'outlook.com',
-                                     'aol.com', 'mail.com', 'mail.ru', 'gmx.at', 'gmx.com',
-                                     'gmx.de', 'gmx.fr', 'gmx.net', 'gmx.us']
+                # Common email providers
+                email_domains = ['gmail.com', 'icloud.com', 'yahoo.com', 'hotmail.com', 'outlook.com',
+                                 'aol.com', 'mail.com', 'mail.ru', 'gmx.at', 'gmx.com',
+                                 'gmx.de', 'gmx.fr', 'gmx.net', 'gmx.us']
 
-                    # Attempting to find email
-                    for email_domain in email_domains:
+                # Attempting to find email
+                for email_domain in email_domains:
 
-                        check = await find_users(f'{profile.email_username}@{email_domain}', token, session)
+                    check = await find_users(f'{profile.email_username}@{email_domain}', token, session)
 
-                        if users[0] != 200:
-                            if users[0] == 429:
-                                print(f'{users[0]} | Ratelimited by API, try again in a minute.')
-                                return
-                            else:
-                                print(f'{users[0]} | An unknown error occured.')
-                                return
+                    if users[0] != 200:
+                        if users[0] == 429:
+                            print(f'{users[0]} | Ratelimited by API, try again in a minute.')
+                            return
+                        else:
+                            print(f'{users[0]} | An unknown error occured.')
+                            return
 
-                        for user_profile in check[1]:
-                            if profile.skype_id == user_profile["nodeProfileData"]["skypeId"]:
-                                profile.email = f'{profile.email_username}@{email_domain}'
-                                break
+                    for user_profile in check[1]:
+
+                        if profile.skype_id == user_profile["nodeProfileData"]["skypeId"]:
+                            profile.email = f'{profile.email_username}@{email_domain}'
+                            break
 
             if 'skypeHandle' in user['nodeProfileData']:
                 profile.handle = user['nodeProfileData']['skypeHandle']
@@ -150,7 +151,7 @@ async def search(text, token):
             if [profile.date_of_birth, profile.gender, profile.email] != [None, 'Unspecified', None]:
                 print('\n[+] Other info found!')
 
-            if profile.date_of_birth != None:
+            if profile.date_of_birth is not None:
                 print(f'- Date of Birth: {profile.date_of_birth}')
             if profile.gender is not None and profile.gender != 'Unspecified':
                 print(f'- Gender: {profile.gender}')
