@@ -97,15 +97,14 @@ async def search(text, token):
             if 'skypeHandle' in user['nodeProfileData']:
                 profile.handle = user['nodeProfileData']['skypeHandle']
 
+            if 'contactType' in user['nodeProfileData']:
+                profile.account_type = user['nodeProfileData']['contactType']
+
             if 'name' in user['nodeProfileData']:
                 profile.display_name = user['nodeProfileData']['name']
 
-            profile.avatar_url = f"https://avatar.skype.com/v1/avatars/{profile.skype_id}/public"
-
-            if 'avatarUrl' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
-                profile.is_default_avatar = False
-            else:
-                profile.is_default_avatar = True
+            if profile.account_type == 'Skype4Consumer':
+                profile.avatar_url = f"https://avatar.skype.com/v1/avatars/{profile.skype_id}/public"
 
             if 'city' in user['nodeProfileData']:
                 profile.city = user['nodeProfileData']['city']
@@ -113,31 +112,37 @@ async def search(text, token):
             if 'state' in user['nodeProfileData']:
                 profile.state = user['nodeProfileData']['state']
 
-            if 'contactType' in user['nodeProfileData']:
-                profile.account_type = user['nodeProfileData']['contactType']
-
             if 'country' in user['nodeProfileData']:
                 profile.country = user['nodeProfileData']['country']
 
-            if 'birthday' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
-                profile.date_of_birth = profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']['birthday']
+            if profile.account_type == 'Skype4Consumer':
+                if not profile.skype_id.startswith('live:'):
+                    profile.creation_time = '< 2016'
+                elif profile.skype_id.startswith('live:.cid.'):
+                    profile.creation_time = '> late 2019'
+                else:
+                    profile.creation_time = 'between 2016 - late 2019'
 
-            if 'gender' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
-                profile.gender = profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']['gender']
+            if profiles[1]['profiles'][f'8:{profile.skype_id}']['status'] != 404:
+                if 'avatarUrl' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
+                    profile.is_default_avatar = False
+                else:
+                    profile.is_default_avatar = True
 
-            if not profile.skype_id.startswith('live:'):
-                profile.creation_time = '< 2016'
-            elif profile.skype_id.startswith('live:.cid.'):
-                profile.creation_time = '> late 2019'
-            else:
-                profile.creation_time = 'between 2016 - late 2019'
+                if 'birthday' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
+                    profile.date_of_birth = profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']['birthday']
+
+                if 'gender' in profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']:
+                    profile.gender = profiles[1]['profiles'][f'8:{profile.skype_id}']['profile']['gender']
 
             print('---------------------------------------\n')
 
             print(f'Skype ID: {profile.skype_id}')
             if profile.display_name not in [None, None]:
                 print(f'Display Name: {profile.display_name}')
-            print(f'\nProfile Avatar: {profile.avatar_url}')
+
+            if profile.avatar_url is not None:
+                print(f'\nProfile Avatar: {profile.avatar_url}')
             if profile.is_default_avatar:
                 print(f'[-] Default Avatar')
 
@@ -150,7 +155,7 @@ async def search(text, token):
             if profile.country not in [None, None]:
                 print(f'- Country: {profile.country}')
 
-            if [profile.date_of_birth, profile.gender, profile.email] != [None, 'Unspecified', None]:
+            if [profile.date_of_birth, profile.email] != [None, None] and profile.gender not in [None, 'Unspecified']:
                 print('\n[+] Other info found!')
 
             if profile.date_of_birth is not None:
