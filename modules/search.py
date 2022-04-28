@@ -155,7 +155,7 @@ async def search(text, token):
             if profile.country not in [None, None]:
                 print(f'- Country: {profile.country}')
 
-            if [profile.date_of_birth, profile.email] != [None, None] and profile.gender not in [None, 'Unspecified']:
+            if profile.date_of_birth is not None or profile.email is not None or profile.gender not in [None, 'Unspecified']:
                 print('\n[+] Other info found!')
 
             if profile.date_of_birth is not None:
