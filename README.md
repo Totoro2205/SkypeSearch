@@ -2,7 +2,7 @@
 
 ![Python minimum version](https://img.shields.io/badge/Python-3.8%2B-brightgreen)
 
-# SkypeSearch
+# 🔎 SkypeSearch
 SkypeSearch is an async OSINT tool made to allow researchers to easily find information from a skype user, with just a username, phone number or email.
 
 <p align="left">
@@ -57,7 +57,7 @@ Scroll down and copy the Skype Auth token
 
 ![screenshot](https://i.imgur.com/wBO7zJK.png)
 
-### 6. Open `token.txt` and paste the Auth token
+### 6. Paste the Auth token in `token.txt`
 After pasting the Skype Auth token, save the file
 
 ![screenshot](https://i.imgur.com/C5Dfsd3.png)
